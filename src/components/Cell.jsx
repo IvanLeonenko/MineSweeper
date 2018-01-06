@@ -11,10 +11,13 @@ export default class Cell extends React.Component {
     render() {
         //console.log('render',this.props);
         const { cell, onClick } = this.props;
-
+// 
         return <div
-            className={"flex-item cell " + (cell.cleared ? "dent" : "bump")}
+            className={"flex-item cell"
+                + (cell.cleared ? " dent" : " bump")
+                + (" number" + (cell.mineCount && cell.mineCount > 0 ? cell.mineCount : 0))}
             onClick={!cell.cleared && (() => onClick(cell))}>
+            { cell.mineCount && cell.mineCount > 0 ? cell.mineCount : 0}
         </div>;
     }
 }
