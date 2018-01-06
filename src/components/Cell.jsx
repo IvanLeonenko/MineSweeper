@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import 'assets/scss/MineSweeper.scss';
+import explosion from 'assets/img/explosion.svg';
 
 export default class Cell extends React.Component {
     constructor(props) {
@@ -17,7 +18,13 @@ export default class Cell extends React.Component {
                 + (cell.cleared ? " dent" : " bump")
                 + (" number" + (cell.mineCount && cell.mineCount > 0 ? cell.mineCount : 0))}
             onClick={!cell.cleared && (() => onClick(cell))}>
-            { cell.mineCount && cell.mineCount > 0 ? cell.mineCount : 0}
+            {
+                cell.cleared && cell.mine
+                ? <img className="content" src={explosion} /> : <img className="content hidden" src={explosion} />
+            }
+            {
+                cell.mineCount && cell.mineCount > 0 ? cell.mineCount : 0
+            }
         </div>;
     }
 }

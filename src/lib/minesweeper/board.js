@@ -9,7 +9,7 @@ export class Board {
    * @param [height=15] integer number of boxes in each column
    * @param [mines=20] integer number of mines in the board
    */
-  constructor(width = 30, height = 15, mines = 20) {
+  constructor(width = 15, height = 30, mines = 20) {
     this.width = width
     this.height = height
     this.mines = mines

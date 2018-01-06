@@ -22,10 +22,12 @@ export default class MineSweeper extends React.Component {
     }
 
     render() {
-
         const rows = R.splitEvery(this.state.board.width, this.state.board.spots);
         
         return <div>
+        <div>
+        Game over!
+    </div>
             <div>
                 { R.map(r => <div className="flex-container">
                         { R.map(c => <Cell cell={c} onClick={this.onCellClick} />, r) }
