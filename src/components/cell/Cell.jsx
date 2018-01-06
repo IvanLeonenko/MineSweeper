@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import 'assets/scss/MineSweeper.scss';
+import './Cell.scss';
 import explosion from 'assets/img/explosion.svg';
 
 export default class Cell extends React.Component {
@@ -15,7 +15,7 @@ export default class Cell extends React.Component {
 // 
         return <div
             className={"flex-item cell"
-                + (cell.cleared ? " dent" : " bump")
+                + (cell.cleared ? " flat" : " bump")
                 + (" number" + (cell.mineCount && cell.mineCount > 0 ? cell.mineCount : 0))}
             onClick={!cell.cleared && (() => onClick(cell))}>
             {
