@@ -19,14 +19,15 @@ export default class MineBoard extends React.Component {
     this.onCellClick = cell => {
       cell.clicked = true;
       this.state.board.clearSpot(cell.id);
-      if (this.state.board.lost) {
+      const lost = this.state.board.lost;
+      const won = !this.state.board.lost && this.state.board.won();
+      
+      if (lost || won) {
         this.state.board.clearAll();
       }
 
       if (this.props.onBoardChange && status !== this.state.status) {
-        const statusUpdate = { lost: this.state.board.lost };
-        statusUpdate.won = !statusUpdate.lost && this.state.board.won();
-        this.props.onBoardChange(statusUpdate);
+        this.props.onBoardChange({ lost: this.state.board.lost, won });
       }
       this.setState({ spots: this.state.spots });
     };
