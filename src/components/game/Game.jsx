@@ -25,17 +25,24 @@ export default class Game extends React.Component {
     };
 
     this.startGame = () => {
-        const status = this.state.gameStatus !== GameStatus.PLAYING ? GameStatus.PLAYING : GameStatus.INIT;
+      const status =
+        this.state.gameStatus !== GameStatus.PLAYING
+          ? GameStatus.PLAYING
+          : GameStatus.INIT;
       this.setState({ gameStatus: status });
     };
 
-    this.onBoardChange = status => {
+    this.onBoardChange = statusUpdate => {
+      const status = statusUpdate.lost
+      ? GameStatus.LOST
+      : statusUpdate.won ? GameStatus.WON : GameStatus.PLAYING;
       this.setState({ gameStatus: status });
     };
 
     this.isPlaying = () => this.state.gameStatus === GameStatus.PLAYING;
 
-    this.buttonText = () => this.state.gameStatus === GameStatus.PLAYING ? "Stop" : "Start";
+    this.buttonText = () =>
+      this.state.gameStatus === GameStatus.PLAYING ? "Stop" : "Start";
   }
 
   render() {
@@ -77,7 +84,8 @@ export default class Game extends React.Component {
             ) : (
               <div className="col-xs-3 col-sm-3 col-md-3 text-column">
                 <p>
-                  Difficulty: {getGameDifficultyName(this.state.selectedDifficulty)}
+                  Difficulty:{" "}
+                  {getGameDifficultyName(this.state.selectedDifficulty)}
                 </p>
               </div>
             )}
@@ -88,6 +96,7 @@ export default class Game extends React.Component {
           status={this.state.gameStatus}
           message={getStatusMessage(this.state.gameStatus)}
           difficulty={getDifficultyBoardConfig(this.state.selectedDifficulty)}
+          className={getGameDifficultyName(this.state.selectedDifficulty)}
         />
       </div>
     );

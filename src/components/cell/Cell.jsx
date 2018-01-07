@@ -2,11 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Cell.scss';
 import explosion from 'assets/img/explosion.svg';
+import bomb from 'assets/img/bomb.svg';
 
 export default class Cell extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        
+        this.getMineCount = (cell) => {
+            return cell.mineCount && cell.mineCount > 0 ? cell.mineCount : 0;
+        };
     }
     
     render() {
@@ -15,20 +19,15 @@ export default class Cell extends React.Component {
         return <div
             className={"flex-item cell"
                 + (cell.cleared ? " flat" : " bump")
-                + (" number" + (cell.mineCount && cell.mineCount > 0 ? cell.mineCount : 0))}
+                + (" number" + this.getMineCount(cell))}
             onClick={!cell.cleared && (() => onClick(cell))}>
-            {
-                cell.cleared && cell.mine
-                ? <img className="content" src={explosion} /> : <img className="content hidden" src={explosion} />
-            }
-            {
-                cell.mineCount && cell.mineCount > 0 ? cell.mineCount : 0
-            }
+            { <img className={(cell.cleared && cell.mine ? "" : " hidden")} src={cell.clicked ? explosion : bomb} /> }
+            { this.getMineCount(cell) }
         </div>;
     }
 }
 
 Cell.propTypes = {
     cell: PropTypes.object.isRequired,
-    onClick: PropTypes.func,
+    onClick: PropTypes.func
 };

@@ -197,7 +197,10 @@ export class Board {
    */
   clearAll() {
     for (var i = 0; i < this.spots.length; i++) {
-      this.spots[i].cleared = true
+      this.spots[i].cleared = true;
+      if (!this.spots[i].mine) {
+        this.spots[i].mineCount = this.mineCount(i);
+      }
     }
   }
 

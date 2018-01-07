@@ -4,11 +4,7 @@ import { Board } from "../../lib/minesweeper/board";
 import "./MineBoard.scss";
 import Overlay from "../overlay/Overlay";
 import Cell from "../cell/Cell";
-import {
-  GameStatus,
-  getStatusColor,
-  getStatusMessage
-} from "../../constants/enum/gameStatus";
+import { GameStatus } from "../../constants/enum/gameStatus";
 import * as R from "ramda";
 
 export default class MineBoard extends React.Component {
@@ -17,21 +13,20 @@ export default class MineBoard extends React.Component {
     const board = new Board();
     this.state = {
       board,
-      spots: board.spots,
-      status: GameStatus.INIT
+      spots: board.spots
     };
 
     this.onCellClick = cell => {
+      cell.clicked = true;
       this.state.board.clearSpot(cell.id);
       if (this.state.board.lost) {
         this.state.board.clearAll();
       }
-      const status = this.state.board.lost
-        ? GameStatus.LOST
-        : this.state.board.won() ? GameStatus.WON : GameStatus.PLAYING;
 
       if (this.props.onBoardChange && status !== this.state.status) {
-        this.props.onBoardChange(status);
+        const statusUpdate = { lost: this.state.board.lost };
+        statusUpdate.won = !statusUpdate.lost && this.state.board.won();
+        this.props.onBoardChange(statusUpdate);
       }
       this.setState({ spots: this.state.spots });
     };
@@ -41,25 +36,25 @@ export default class MineBoard extends React.Component {
     const { status, difficulty } = nextProps;
 
     if (this.state.difficulty !== difficulty) {
-        const board = new Board(difficulty.width, difficulty.height, difficulty.mines);
-        this.setState({ board, spots: board.spots, difficulty });
+      const board = new Board(difficulty.width, difficulty.height, difficulty.mines);
+      this.setState({ board, spots: board.spots, difficulty });
     }
 
     if (this.state.status !== status) {
-        if (this.state.status === GameStatus.WON || this.state.status === GameStatus.LOST) {
-            const board = new Board(difficulty.width, difficulty.height, difficulty.mines);
-            this.setState({ board, spots: board.spots });
-        }
-        this.setState({ status })
+      if (this.state.status !== GameStatus.PLAYING) {
+        const board = new Board(difficulty.width, difficulty.height, difficulty.mines);
+        this.setState({ board, spots: board.spots });
+      }
+      this.setState({ status });
     }
   }
 
   render() {
-    const { message } = this.props;
+    const { message, className } = this.props;
     const rows = R.splitEvery(this.state.board.width, this.state.board.spots);
 
     return (
-      <div className="board-root">
+      <div className={"board-root " + (className ? className.toLowerCase() : "" )}>
         {message && <Overlay message={message} />}
         <div>
           {R.map(
