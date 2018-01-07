@@ -1,6 +1,13 @@
 # MineSweeper
 Classic minesweeper written in React.
 
+## Current implementation comments
+1. Responsive (see different difficulty levels and resize)
+2. Tests - to be done
+3. Would be nice to have a timer
+4. And score board based on time spent
+5. Different game modes (classic, defcon - limit in time)
+
 ## Installation
 1. Clone/download repo
 2. `npm install`
