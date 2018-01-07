@@ -3,6 +3,11 @@ import PropTypes from "prop-types";
 import { Board } from "../../lib/minesweeper/board";
 import "./MineBoard.scss";
 import Cell from "../cell/Cell";
+import {
+  BoardStatus,
+  getStatusColor,
+  getStatusMessage
+} from "../../constants/enum/boardStatus";
 import * as R from "ramda";
 
 export default class MineBoard extends React.Component {
@@ -10,13 +15,16 @@ export default class MineBoard extends React.Component {
     super(props);
     const board = new Board();
     this.state = {
-      status: "playing", // playing, clear, gameover
       board,
-      spots: board.spots
+      spots: board.spots,
+      status: BoardStatus.INIT
     };
     this.onCellClick = cell => {
       this.state.board.clearSpot(cell.id);
-      this.setState({ spots: this.state.spots });
+      const status = this.state.board.lost
+        ? BoardStatus.LOST
+        : this.state.board.won() ? BoardStatus.WON : BoardStatus.INIT;
+      this.setState({ spots: this.state.spots, status });
     };
   }
 
