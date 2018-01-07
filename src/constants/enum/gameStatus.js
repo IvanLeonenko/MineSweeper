@@ -25,7 +25,7 @@ const StatusColor = {
 export function getStatusMessage(status) {
   switch (status) {
     case GameStatus.INIT:
-    return "PRESS START!";
+    return "WELCOME!";
     case GameStatus.WON:
       return "CONGRATULATIONS!";
     case GameStatus.LOST:

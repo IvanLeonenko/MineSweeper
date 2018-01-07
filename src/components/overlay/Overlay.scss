@@ -4,15 +4,25 @@
   height: 100%;
   text-align: center;
   z-index: 1000;
-  background-color: rgba(136, 136, 136, 0.5);
+  background-color: rgba(136, 136, 136, 0.3);
 
   .text-container {
-    padding-top: 15%;
+    margin-top: 15%;
+    margin-left: 25%;
+    margin-right: 25%;
+    background: rgba(178, 27, 0, 0.85);
+    border-radius: 40px;
+
+    .red-button {
+      padding: 15px 40px;
+      margin: 15px 10px;
+      font-size: 20px;
+    }
 
     span {
-      font-size: 44px;
-      color: red;
-      font-weight: 600;
+      font-size: 34px;
+      color: #00ff93;
+      font-weight: 500;
     }
   }
 }

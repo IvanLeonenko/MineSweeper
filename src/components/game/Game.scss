@@ -3,11 +3,28 @@
 }
 
 .text-column {
-  display: table-cell;
-  vertical-align: middle;
-  float: none;
+  text-transform: uppercase;
+  color: #b21b00;
+  font-size: 18px;
+  font-weight: 500;
 
   p {
     margin: 10px 0;
   }
+}
+
+.red-button {
+  color: #00ff93;
+  background-color: #b21b00;
+  text-transform: uppercase;
+
+  &.btn-default:hover {
+    background-color: #731b00;
+    color: #00ff93;
+    border-color: #00ff93;
+  }
+}
+
+.content-center {
+  text-align: center;
 }

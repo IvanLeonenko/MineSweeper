@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Board } from "../../lib/minesweeper/board";
 import "./MineBoard.scss";
-import Overlay from "../overlay/Overlay";
 import Cell from "../cell/Cell";
 import { GameStatus } from "../../constants/enum/gameStatus";
 import * as R from "ramda";
@@ -54,30 +53,24 @@ export default class MineBoard extends React.Component {
     const { message, className } = this.props;
     const rows = R.splitEvery(this.state.board.width, this.state.board.spots);
 
-    return (
-      <div className={"board-root " + (className ? className.toLowerCase() : "" )}>
-        {message && <Overlay message={message} />}
-        <div>
-          {R.map(
-            row => (
-              <div className="flex-container">
-                {R.map(
-                  cell => <Cell cell={cell} onClick={this.onCellClick} />,
-                  row
-                )}
-              </div>
-            ),
-            rows
-          )}
-        </div>
-      </div>
-    );
+    return <div>
+        {R.map(
+          row => (
+            <div className="flex-container">
+              {R.map(
+                cell => <Cell cell={cell} onClick={this.onCellClick} />,
+                row
+              )}
+            </div>
+          ),
+          rows
+        )}
+      </div>;
   }
 }
 
 MineBoard.propTypes = {
   onBoardChange: PropTypes.func,
-  message: PropTypes.string,
   status: PropTypes.number,
   difficulty: PropTypes.object
 };
