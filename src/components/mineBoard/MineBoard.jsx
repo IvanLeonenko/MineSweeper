@@ -20,11 +20,16 @@ export default class MineBoard extends React.Component {
       spots: board.spots,
       status: BoardStatus.INIT
     };
+
     this.onCellClick = cell => {
       this.state.board.clearSpot(cell.id);
       const status = this.state.board.lost
         ? BoardStatus.LOST
         : this.state.board.won() ? BoardStatus.WON : BoardStatus.INIT;
+
+      if (this.props.onBoardStatusChange && status !== this.state.status) {
+        this.props.onBoardStatusChange(status);
+      }
       this.setState({ spots: this.state.spots, status });
     };
   }
@@ -58,3 +63,7 @@ export default class MineBoard extends React.Component {
     );
   }
 }
+
+MineBoard.propTypes = {
+  onBoardStatusChange: PropTypes.func
+};
