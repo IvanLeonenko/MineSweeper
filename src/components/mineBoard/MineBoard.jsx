@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Board } from "../../lib/minesweeper/board";
 import "./MineBoard.scss";
+import Overlay from "../overlay/Overlay";
 import Cell from "../cell/Cell";
 import {
   BoardStatus,
@@ -28,12 +29,18 @@ export default class MineBoard extends React.Component {
     };
   }
 
+  showOverlay(status) {
+    return status === BoardStatus.WON || status === BoardStatus.LOST;
+  }
+
   render() {
     const rows = R.splitEvery(this.state.board.width, this.state.board.spots);
 
     return (
-      <div>
-        <div>Game over!</div>
+      <div className="board-root">
+        {this.showOverlay(this.state.status) && (
+          <Overlay message={getStatusMessage(this.state.status)} />
+        )}
         <div>
           {R.map(
             row => (

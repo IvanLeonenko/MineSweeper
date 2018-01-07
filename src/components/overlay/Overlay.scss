@@ -1,0 +1,18 @@
+.overlay-root {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  z-index: 1000;
+  background-color: rgba(196, 136, 136, 0.7);
+
+  .text-container {
+    padding-top: 15%;
+
+    span {
+      font-size: 60px;
+      color: darkorange;
+      font-weight: 600;
+    }
+  }
+}
