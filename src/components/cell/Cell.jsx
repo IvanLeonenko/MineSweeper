@@ -10,9 +10,8 @@ export default class Cell extends React.Component {
     }
     
     render() {
-        //console.log('render',this.props);
         const { cell, onClick } = this.props;
-// 
+        
         return <div
             className={"flex-item cell"
                 + (cell.cleared ? " flat" : " bump")

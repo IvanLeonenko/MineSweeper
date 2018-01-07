@@ -40,7 +40,6 @@ export default class MineBoard extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { status, difficulty } = nextProps;
 
-
     if (this.state.difficulty !== difficulty) {
         const board = new Board(difficulty.width, difficulty.height, difficulty.mines);
         this.setState({ board, spots: board.spots, difficulty });

@@ -25,12 +25,17 @@ export default class Game extends React.Component {
     };
 
     this.startGame = () => {
-      this.setState({ gameStatus: GameStatus.PLAYING });
+        const status = this.state.gameStatus !== GameStatus.PLAYING ? GameStatus.PLAYING : GameStatus.INIT;
+      this.setState({ gameStatus: status });
     };
 
     this.onBoardChange = status => {
-        this.setState({ gameStatus: status });
+      this.setState({ gameStatus: status });
     };
+
+    this.isPlaying = () => this.state.gameStatus === GameStatus.PLAYING;
+
+    this.buttonText = () => this.state.gameStatus === GameStatus.PLAYING ? "Stop" : "Start";
   }
 
   render() {
@@ -44,29 +49,37 @@ export default class Game extends React.Component {
                 type="submit"
                 onClick={this.startGame}
               >
-                Start
+                {this.buttonText()}
               </button>
             </div>
-            {R.map(
-              difficulty => (
-                <div className="col-xs-3 col-sm-3 col-md-3">
-                  <div className="radio">
-                    <label>
-                      <input
-                        type="radio"
-                        value={GameDifficulty[difficulty]}
-                        checked={
-                          this.state.selectedDifficulty ===
-                          GameDifficulty[difficulty]
-                        }
-                        onChange={this.handleDifficultyChange}
-                      />
-                      {getGameDifficultyName(GameDifficulty[difficulty])}
-                    </label>
+            {!this.isPlaying() ? (
+              R.map(
+                difficulty => (
+                  <div className="col-xs-3 col-sm-3 col-md-3">
+                    <div className="radio">
+                      <label>
+                        <input
+                          type="radio"
+                          value={GameDifficulty[difficulty]}
+                          checked={
+                            this.state.selectedDifficulty ===
+                            GameDifficulty[difficulty]
+                          }
+                          onChange={this.handleDifficultyChange}
+                        />
+                        {getGameDifficultyName(GameDifficulty[difficulty])}
+                      </label>
+                    </div>
                   </div>
-                </div>
-              ),
-              Object.keys(GameDifficulty)
+                ),
+                Object.keys(GameDifficulty)
+              )
+            ) : (
+              <div className="col-xs-3 col-sm-3 col-md-3 text-column">
+                <p>
+                  Difficulty: {getGameDifficultyName(this.state.selectedDifficulty)}
+                </p>
+              </div>
             )}
           </div>
         </div>
