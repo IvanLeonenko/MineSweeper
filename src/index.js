@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from 'react-dom';
 import {AppContainer} from "react-hot-loader";
-import App from "components/App";
+import App from "components/app/App";
 
 const rootEl = document.getElementById("root");
 
@@ -18,7 +18,7 @@ renderComponent(App);
 
 // Hot Module Replacement API
 if (module.hot) {
-    module.hot.accept("./components/App", () => {
+    module.hot.accept("./components/app/App", () => {
         renderComponent(App);
     });
 }

@@ -1,12 +1,12 @@
 import React from 'react';
-import MineBoard from './mineBoard/MineBoard';
-import 'assets/scss/App.scss';
+import Game from '../game/Game';
+import './App.scss';
 
 class App extends React.PureComponent {
   render() {
     return (
         <div className="app">
-          <MineBoard />
+          <Game />
         </div>
     );
   }
