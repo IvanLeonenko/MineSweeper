@@ -15,6 +15,12 @@ const DifficultyColor = {
   [GameDifficulty.HARD]: "#ff877e"
 };
 
+const BoardConfig = {
+  [GameDifficulty.EASY]: { width: 10, height: 20, mines: 20 }, // 10%
+  [GameDifficulty.MEDIUM]: { width: 20, height: 30, mines: 72 }, // 12%
+  [GameDifficulty.HARD]: { width: 30, height: 40, mines: 240 }  // 20%
+};
+
 /**
  * Get difficulty name
  * @param {difficulty} difficulty
@@ -40,6 +46,10 @@ export function getGameDifficultyName(difficulty) {
  */
 export function getDifficultyColor(difficulty) {
   return DifficultyColor[difficulty];
+}
+
+export function getDifficultyBoardConfig(difficulty) {
+  return BoardConfig[difficulty];
 }
 
 export default GameDifficulty;

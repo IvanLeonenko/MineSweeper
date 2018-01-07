@@ -5,11 +5,11 @@ export class Board {
    * Create an instance of a board based on width, height and number
    * of mines.
    *
-   * @param [width=30] integer number of boxes in each row
-   * @param [height=15] integer number of boxes in each column
+   * @param [width=10] integer number of boxes in each row
+   * @param [height=20] integer number of boxes in each column
    * @param [mines=20] integer number of mines in the board
    */
-  constructor(width = 15, height = 30, mines = 20) {
+  constructor(width = 10, height = 20, mines = 20) {
     this.width = width
     this.height = height
     this.mines = mines

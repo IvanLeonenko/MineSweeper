@@ -4,14 +4,14 @@
   height: 100%;
   text-align: center;
   z-index: 1000;
-  background-color: rgba(196, 136, 136, 0.7);
+  background-color: rgba(136, 136, 136, 0.5);
 
   .text-container {
     padding-top: 15%;
 
     span {
-      font-size: 60px;
-      color: darkorange;
+      font-size: 44px;
+      color: red;
       font-weight: 600;
     }
   }

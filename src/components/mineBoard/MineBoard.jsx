@@ -5,10 +5,10 @@ import "./MineBoard.scss";
 import Overlay from "../overlay/Overlay";
 import Cell from "../cell/Cell";
 import {
-  BoardStatus,
+  GameStatus,
   getStatusColor,
   getStatusMessage
-} from "../../constants/enum/boardStatus";
+} from "../../constants/enum/gameStatus";
 import * as R from "ramda";
 
 export default class MineBoard extends React.Component {
@@ -18,34 +18,50 @@ export default class MineBoard extends React.Component {
     this.state = {
       board,
       spots: board.spots,
-      status: BoardStatus.INIT
+      status: GameStatus.INIT
     };
 
     this.onCellClick = cell => {
       this.state.board.clearSpot(cell.id);
-      const status = this.state.board.lost
-        ? BoardStatus.LOST
-        : this.state.board.won() ? BoardStatus.WON : BoardStatus.INIT;
-
-      if (this.props.onBoardStatusChange && status !== this.state.status) {
-        this.props.onBoardStatusChange(status);
+      if (this.state.board.lost) {
+        this.state.board.clearAll();
       }
-      this.setState({ spots: this.state.spots, status });
+      const status = this.state.board.lost
+        ? GameStatus.LOST
+        : this.state.board.won() ? GameStatus.WON : GameStatus.PLAYING;
+
+      if (this.props.onBoardChange && status !== this.state.status) {
+        this.props.onBoardChange(status);
+      }
+      this.setState({ spots: this.state.spots });
     };
   }
 
-  showOverlay(status) {
-    return status === BoardStatus.WON || status === BoardStatus.LOST;
+  componentWillReceiveProps(nextProps) {
+    const { status, difficulty } = nextProps;
+
+
+    if (this.state.difficulty !== difficulty) {
+        const board = new Board(difficulty.width, difficulty.height, difficulty.mines);
+        this.setState({ board, spots: board.spots, difficulty });
+    }
+
+    if (this.state.status !== status) {
+        if (this.state.status === GameStatus.WON || this.state.status === GameStatus.LOST) {
+            const board = new Board(difficulty.width, difficulty.height, difficulty.mines);
+            this.setState({ board, spots: board.spots });
+        }
+        this.setState({ status })
+    }
   }
 
   render() {
+    const { message } = this.props;
     const rows = R.splitEvery(this.state.board.width, this.state.board.spots);
 
     return (
       <div className="board-root">
-        {this.showOverlay(this.state.status) && (
-          <Overlay message={getStatusMessage(this.state.status)} />
-        )}
+        {message && <Overlay message={message} />}
         <div>
           {R.map(
             row => (
@@ -65,5 +81,8 @@ export default class MineBoard extends React.Component {
 }
 
 MineBoard.propTypes = {
-  onBoardStatusChange: PropTypes.func
+  onBoardChange: PropTypes.func,
+  message: PropTypes.string,
+  status: PropTypes.number,
+  difficulty: PropTypes.object
 };

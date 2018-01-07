@@ -1,18 +1,20 @@
 /**
- * Board status enum
+ * Game status enum
  * @enum
  * @type {object}
  */
-export const BoardStatus = {
+export const GameStatus = {
   INIT: 1,
-  WON: 2,
-  LOST: 3
+  PLAYING: 2,
+  WON: 3,
+  LOST: 4
 };
 
 const StatusColor = {
-  [BoardStatus.INIT]: "#f2cd67",
-  [BoardStatus.WON]: "#6fd9ba",
-  [BoardStatus.LOST]: "#ff877e"
+  [GameStatus.INIT]: "#f2cd67",
+  [GameStatus.PLAYING]: "#f2cd67",
+  [GameStatus.WON]: "#6fd9ba",
+  [GameStatus.LOST]: "#ff877e"
 };
 
 /**
@@ -22,9 +24,11 @@ const StatusColor = {
  */
 export function getStatusMessage(status) {
   switch (status) {
-    case BoardStatus.WON:
+    case GameStatus.INIT:
+    return "PRESS START!";
+    case GameStatus.WON:
       return "CONGRATULATIONS!";
-    case BoardStatus.LOST:
+    case GameStatus.LOST:
       return "GAME OVER!";
     default:
       return "";
@@ -40,4 +44,4 @@ export function getStatusColor(status) {
   return StatusColor[status];
 }
 
-export default BoardStatus;
+export default GameStatus;

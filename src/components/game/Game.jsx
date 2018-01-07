@@ -1,19 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
+import "./Game.scss";
 import MineBoard from "../mineBoard/MineBoard";
 import {
   GameDifficulty,
-  getGameDifficultyName
+  getGameDifficultyName,
+  getDifficultyBoardConfig
 } from "../../constants/enum/gameDifficulty";
-import { BoardStatus } from "../../constants/enum/boardStatus";
+import { GameStatus, getStatusMessage } from "../../constants/enum/gameStatus";
 import * as R from "ramda";
 
 export default class Game extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { selectedDifficulty: GameDifficulty.EASY };
-
-    this.onBoardStatusChange = status => {};
+    this.state = {
+      selectedDifficulty: GameDifficulty.EASY,
+      gameStatus: GameStatus.INIT
+    };
 
     this.handleDifficultyChange = changeEvent => {
       this.setState({
@@ -22,7 +25,11 @@ export default class Game extends React.Component {
     };
 
     this.startGame = () => {
-      // props to mine board
+      this.setState({ gameStatus: GameStatus.PLAYING });
+    };
+
+    this.onBoardChange = status => {
+        this.setState({ gameStatus: status });
     };
   }
 
@@ -48,7 +55,10 @@ export default class Game extends React.Component {
                       <input
                         type="radio"
                         value={GameDifficulty[difficulty]}
-                        checked={ this.state.selectedDifficulty === GameDifficulty[difficulty] }
+                        checked={
+                          this.state.selectedDifficulty ===
+                          GameDifficulty[difficulty]
+                        }
                         onChange={this.handleDifficultyChange}
                       />
                       {getGameDifficultyName(GameDifficulty[difficulty])}
@@ -60,7 +70,12 @@ export default class Game extends React.Component {
             )}
           </div>
         </div>
-        <MineBoard onBoardStatusChange={this.onBoardStatusChange} />
+        <MineBoard
+          onBoardChange={this.onBoardChange}
+          status={this.state.gameStatus}
+          message={getStatusMessage(this.state.gameStatus)}
+          difficulty={getDifficultyBoardConfig(this.state.selectedDifficulty)}
+        />
       </div>
     );
   }
